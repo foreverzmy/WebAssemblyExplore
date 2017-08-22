@@ -26,7 +26,4 @@ emitter.addListener('mod', mod => {
       console.log(result);
     });
   const exports = WebAssembly.Module.exports(mod);
-  // console.log(exports);
 })
-
-
