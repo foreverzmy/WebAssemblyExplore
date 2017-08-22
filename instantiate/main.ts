@@ -5,6 +5,9 @@ import * as fs from 'fs';
 const path = './addOne.wasm';
 const buffer = fs.readFileSync(path);
 
+const valid = WebAssembly.validate(buffer);
+console.log(valid);
+
 const importObject = {
   env: {
     addOne: function (arg) {
@@ -15,7 +18,6 @@ const importObject = {
 
 WebAssembly.instantiate(buffer, importObject)
   .then((mod: any) => {
-    console.log(mod);
     const result = mod.instance.exports.add(4, 5);
     console.log(result);
   })
