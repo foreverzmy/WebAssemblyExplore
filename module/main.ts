@@ -6,9 +6,9 @@ const buffer = fs.readFileSync(path);
 
 const mod = new WebAssembly.Module(buffer);
 
-console.log(WebAssembly.Module.exports(mod));
-console.log(WebAssembly.Module.imports(mod));
-console.log(WebAssembly.Module.customSections(mod, 'add'))
+WebAssembly.Module.exports(mod); // ->[{ name: 'memory', kind: 'memory' }, { name: 'add', kind: 'function' }]
+const imp = WebAssembly.Module.imports(mod); // ->[ { module: 'env', name: 'addOne', kind: 'function' } ]
+const cus = WebAssembly.Module.customSections(mod, 'name'); // ->[]
 
 const importObject = {
   env: {
@@ -21,5 +21,5 @@ const importObject = {
 WebAssembly.instantiate(mod, importObject)
   .then((instance: any) => {
     const result = instance.exports.add(4, 5);
-    console.log(result);
+    console.log(result); // >10
   });
